@@ -44,7 +44,7 @@ return [
         /*
          * Define the theme of the documentation. Available options are `light`, `dark`, and `system`.
          */
-        'theme' => 'light',
+        'theme' => 'dark',
 
         /*
          * Hide the `Try It` feature. Enabled by default.
@@ -89,15 +89,17 @@ return [
      * ],
      * ```
      */
-    'servers' => null,
-
+    'servers' => [
+        'Live' => 'https://healthsync-api-production.up.railway.app',
+    ],
+    'documentation_url' => env('APP_URL', 'https://healthsync-api-production.up.railway.app'),
     /**
      * Determines how Scramble stores the descriptions of enum cases.
      * Available options:
      * - 'description' – Case descriptions are stored as the enum schema's description using table formatting.
      * - 'extension' – Case descriptions are stored in the `x-enumDescriptions` enum schema extension.
      *
-     *    @see https://redocly.com/docs-legacy/api-reference-docs/specification-extensions/x-enum-descriptions
+     * @see https://redocly.com/docs-legacy/api-reference-docs/specification-extensions/x-enum-descriptions
      * - false - Case descriptions are ignored.
      */
     'enum_cases_description_strategy' => 'description',

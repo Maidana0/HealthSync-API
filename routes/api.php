@@ -90,8 +90,14 @@ Route::middleware(['auth:api', 'role:admin'])->prefix('admin')->group(function (
     Route::put('users/{user}/doctor', [UsersController::class, 'updateDoctor']);
 
     // Rutas administrativas para registros médicos
-    Route::apiResource('medical-records', AdminMedicalRecordController::class);
-    Route::get('medical-records/{medical_record}/audit', [AdminMedicalRecordController::class, 'audit']);
+    Route::apiResource('medical-records', AdminMedicalRecordController::class)->names([
+        'index' => 'admin.medical-records.index',
+        'show' => 'admin.medical-records.show',
+        'store' => 'admin.medical-records.store',
+        'update' => 'admin.medical-records.update',
+        'destroy' => 'admin.medical-records.destroy',
+    ]);
+    Route::get('medical-records/{medical_record}/audit', [AdminMedicalRecordController::class, 'audit'])->name('admin.medical-records.audit');
 
     // Notificaciones - Admin
     Route::get('notifications', [AdminNotificationController::class, 'index']);
@@ -108,8 +114,8 @@ Route::middleware(['auth:api', 'role:admin'])->prefix('admin')->group(function (
 
 // Rutas para pacientes - registros médicos (deben ir primero para evitar conflictos)
 Route::middleware(['auth:api', 'role:patient', 'verified'])->group(function () {
-    Route::get('medical-records', [PatientMedicalRecordController::class, 'index']);
-    Route::get('medical-records/{medical_record}', [PatientMedicalRecordController::class, 'show']);
+    Route::get('medical-records', [PatientMedicalRecordController::class, 'index'])->name('patient.medical-records.index');
+    Route::get('medical-records/{medical_record}', [PatientMedicalRecordController::class, 'show'])->name('patient.medical-records.show');
 
     // Notificaciones - Paciente
     Route::get('patient/notifications', [PatientNotificationController::class, 'index']);
@@ -120,10 +126,16 @@ Route::middleware(['auth:api', 'role:patient', 'verified'])->group(function () {
 
 // Rutas para doctores - registros médicos
 Route::middleware(['auth:api', 'role:doctor', 'verified'])->group(function () {
-    Route::apiResource('medical-records', DoctorMedicalRecordController::class);
-    Route::get('medical-records/patient/{patient_id}', [DoctorMedicalRecordController::class, 'patientRecords']);
-    Route::get('medical-records/{medical_record}/history', [DoctorMedicalRecordController::class, 'history']);
-    Route::get('medical-records/{medical_record}/audit', [DoctorMedicalRecordController::class, 'audit']);
+    Route::apiResource('medical-records', DoctorMedicalRecordController::class)->names([
+        'index' => 'doctor.medical-records.index',
+        'show' => 'doctor.medical-records.show',
+        'store' => 'doctor.medical-records.store',
+        'update' => 'doctor.medical-records.update',
+        'destroy' => 'doctor.medical-records.destroy',
+    ]);
+    Route::get('medical-records/patient/{patient_id}', [DoctorMedicalRecordController::class, 'patientRecords'])->name('doctor.medical-records.patient');
+    Route::get('medical-records/{medical_record}/history', [DoctorMedicalRecordController::class, 'history'])->name('doctor.medical-records.history');
+    Route::get('medical-records/{medical_record}/audit', [DoctorMedicalRecordController::class, 'audit'])->name('doctor.medical-records.audit');
 
     // Notificaciones - Doctor
     Route::get('doctor/notifications', [DoctorNotificationController::class, 'index']);
