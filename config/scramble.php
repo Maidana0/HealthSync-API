@@ -89,10 +89,11 @@ return [
      * ],
      * ```
      */
+    // Hardcode de momento, pero debería ir en la variable de entorno mencionada arriba
     'servers' => [
-        'Live' => 'https://healthsync-api-production.up.railway.app',
+        'Live' => 'https://healthsync-api-production.up.railway.app/api'
     ],
-    'documentation_url' => env('APP_URL', 'https://healthsync-api-production.up.railway.app'),
+    'documentation_url' => 'https://healthsync-api-production.up.railway.app/api',
     /**
      * Determines how Scramble stores the descriptions of enum cases.
      * Available options:
